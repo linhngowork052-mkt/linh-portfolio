@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media & Web Analytics: Cow and the Moon — Linh Ngo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#12172B; --crimson:#D7263D; --lime:#C6F135; --ivory:#FAF7F0; --ivory-raised:#FFFFFF;
+    --ink-soft:#5B5F72; --line:rgba(18,23,43,0.12); --line-strong:rgba(18,23,43,0.22);
+    --serif:'Fraunces',serif; --sans:'Space Grotesk',sans-serif; --maxw:980px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--ivory); color:var(--navy); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  header.top{position:sticky; top:0; z-index:20; background:rgba(250,247,240,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:16px 0;}
+  .back-link{display:inline-flex; align-items:center; gap:8px; font-size:0.85rem; font-weight:600; text-decoration:none; color:var(--navy);}
+  .back-link:hover{color:var(--crimson);}
+
+  .hero{background:var(--navy); color:var(--ivory); padding:64px 0 48px;}
+  .hero .tag{color:var(--lime); font-size:0.8rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;}
+  .hero h1{font-family:var(--serif); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.8rem); line-height:1.15; margin:0 0 18px; max-width:20ch;}
+  .hero .sub{color:rgba(250,247,240,0.75); max-width:60ch; font-size:1.02rem; margin:0 0 28px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:28px;}
+  .hero-meta div .num{font-family:var(--serif); font-weight:700; font-size:1.6rem; color:var(--lime);}
+  .hero-meta div .lbl{font-size:0.78rem; color:rgba(250,247,240,0.65); margin-top:2px;}
+  .hero-links{display:flex; gap:14px; flex-wrap:wrap; margin-top:28px;}
+  .btn-ghost-dark{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 22px; font-weight:600; font-size:0.88rem;
+    text-decoration:none; border-radius:999px; border:1.5px solid rgba(250,247,240,0.5); color:var(--ivory);
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .btn-ghost-dark:hover{background:rgba(250,247,240,0.12); border-color:var(--lime);}
+
+  /* Image slots */
+  .banner-slot{
+    position:relative; width:100%; aspect-ratio:16/7; border-radius:10px; overflow:hidden;
+    background:var(--navy); margin-bottom:8px;
+  }
+  .img-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:700px){ .img-grid{grid-template-columns:1fr;} }
+  .img-slot{
+    position:relative; aspect-ratio:4/3; border-radius:10px; overflow:hidden; background:var(--navy);
+  }
+  .img-slot img, .banner-slot img{width:100%; height:100%; object-fit:contain; display:none;}
+  .img-slot.has-img img, .banner-slot.has-img img{display:block;}
+  .img-slot.has-img .img-placeholder, .banner-slot.has-img .img-placeholder{display:none;}
+  .img-placeholder{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    color:rgba(250,247,240,0.7); text-align:center; padding:12px; transition:background .2s ease;
+  }
+  .img-slot:hover .img-placeholder, .banner-slot:hover .img-placeholder{background:rgba(215,38,61,0.14);}
+  .img-placeholder .plus{width:36px; height:36px; border-radius:50%; border:2px solid var(--lime); display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:var(--lime);}
+  .img-placeholder span.lbl2{font-size:0.78rem; line-height:1.4;}
+  .img-slot input[type="file"], .banner-slot input[type="file"]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .img-note{font-size:0.85rem; color:var(--ink-soft); margin-top:14px; max-width:70ch;}
+  .img-note code{background:rgba(18,23,43,0.06); padding:2px 6px; border-radius:4px; font-size:0.8rem;}
+
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  .section-tag{font-size:0.78rem; letter-spacing:0.06em; color:var(--crimson); font-weight:700; text-transform:uppercase; margin:0 0 10px;}
+  h2{font-family:var(--serif); font-weight:700; font-size:clamp(1.5rem,3vw,2rem); margin:0 0 22px; letter-spacing:-0.01em;}
+  p{color:var(--ink-soft); font-size:1rem;}
+  .lead{font-size:1.08rem; max-width:75ch;}
+
+  /* SWOT */
+  .swot-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .swot-grid{grid-template-columns:1fr;} }
+  .swot-card{background:var(--ivory-raised); border:1px solid var(--line); border-radius:10px; padding:22px;}
+  .swot-card h4{margin:0 0 12px; font-size:0.95rem; letter-spacing:0.04em; text-transform:uppercase;}
+  .swot-card.s h4{color:var(--crimson);}
+  .swot-card.w h4{color:var(--navy);}
+  .swot-card.o h4{color:#7a8c00;}
+  .swot-card.t h4{color:var(--crimson);}
+  .swot-card ul{margin:0; padding-left:18px; color:var(--ink-soft); font-size:0.92rem;}
+  .swot-card li{margin-bottom:8px;}
+
+  /* PEST */
+  .pest-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  @media (max-width:900px){ .pest-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .pest-grid{grid-template-columns:1fr;} }
+  .pest-card{background:var(--ivory-raised); border:1px solid var(--line); border-radius:10px; padding:18px;}
+  .pest-card h4{margin:0 0 10px; font-size:0.85rem; color:var(--navy);}
+  .pest-card p{font-size:0.85rem; margin:0; color:var(--ink-soft);}
+
+  /* Sentiment stats */
+  .sentiment-row{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media (max-width:640px){ .sentiment-row{grid-template-columns:1fr;} }
+  .sentiment-card{background:var(--navy); color:var(--ivory); border-radius:10px; padding:24px; text-align:center;}
+  .sentiment-card .pct{font-family:var(--serif); font-weight:700; font-size:2.4rem; color:var(--lime);}
+  .sentiment-card .plat{font-size:0.85rem; color:rgba(250,247,240,0.7); margin-top:4px;}
+
+  /* Metrics table */
+  table.metrics{width:100%; border-collapse:collapse; font-size:0.9rem;}
+  table.metrics th, table.metrics td{padding:12px 14px; border-bottom:1px solid var(--line); text-align:left;}
+  table.metrics th{font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-soft);}
+  table.metrics td.you{font-weight:700; color:var(--crimson);}
+  table.metrics tr:last-child td{border-bottom:none;}
+
+  /* bar compare */
+  .bar-group{margin-bottom:26px;}
+  .bar-group .metric-name{font-size:0.85rem; font-weight:600; margin-bottom:10px;}
+  .bar-row{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+  .bar-row .brand{width:110px; font-size:0.78rem; color:var(--ink-soft); flex-shrink:0;}
+  .bar-track{flex:1; background:var(--line); border-radius:4px; height:10px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:4px;}
+  .bar-row.you .bar-fill{background:var(--crimson);}
+  .bar-row:not(.you) .bar-fill{background:var(--navy); opacity:0.35;}
+  .bar-row .val{width:64px; text-align:right; font-size:0.78rem; color:var(--ink-soft); flex-shrink:0;}
+
+  /* Recommendations */
+  .rec-list{display:flex; flex-direction:column; gap:14px;}
+  .rec-item{display:flex; gap:16px; background:var(--ivory-raised); border:1px solid var(--line); border-radius:10px; padding:20px 22px;}
+  .rec-num{font-family:var(--serif); font-weight:700; color:var(--lime); background:var(--navy); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.95rem;}
+  .rec-item h4{margin:0 0 6px; font-size:1rem; color:var(--navy);}
+  .rec-item p{margin:0; font-size:0.92rem;}
+
+  .conclusion-band{background:var(--crimson); color:var(--ivory); padding:48px 0; border-bottom:none;}
+  .conclusion-band .section-tag{color:var(--navy); background:var(--lime); display:inline-block; padding:3px 10px;}
+  .conclusion-band p{color:rgba(250,247,240,0.9); max-width:70ch; font-size:1.02rem;}
+
+  .cta-row{display:flex; gap:16px; flex-wrap:wrap; padding:40px 0; justify-content:center;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:14px 26px; font-weight:600; font-size:0.92rem; text-decoration:none; border-radius:999px; border:1.5px solid var(--navy); transition:transform .18s ease, background .2s ease, color .2s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--navy); color:var(--ivory);}
+  .btn-primary:hover{background:var(--crimson); border-color:var(--crimson);}
+  footer.foot{padding:24px; text-align:center; font-size:0.8rem; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="back-link" href="../index.html#projects">&#8592; Back to portfolio</a>
+  </div>
+</header>
+
+<section class="hero" style="border-bottom:none;">
+  <div class="wrap">
+    <p class="tag">MARK301 — Digital Marketing</p>
+    <h1>Social Media &amp; Web Analytics: Cow and the Moon Gelato Bar</h1>
+    <p class="sub">A digital marketing audit of a family-run artisan gelato brand in Sydney and Wollongong — analysing its social presence, web performance, and competitive position to recommend a stronger digital strategy.</p>
+    <div class="hero-meta">
+      <div><div class="num">83/100</div><div class="lbl">Grade</div></div>
+      <div><div class="num">4</div><div class="lbl">Brands analysed</div></div>
+      <div><div class="num">Aug 2024</div><div class="lbl">Completed</div></div>
+    </div>
+    <div class="hero-links">
+      <a class="btn-ghost-dark" href="cow-and-the-moon-report.pdf" target="_blank" rel="noopener">View full PDF report ↗</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Overview</p>
+    <h2>The brief</h2>
+    <p class="lead">Cow and the Moon is an award-winning artisan gelato shop with a loyal following, but its digital presence was underleveraged — infrequent posting, minimal reply to comments, and a website that visitors left almost immediately. My task was to turn publicly available data into a clear picture of where the brand stood, how it compared to three local competitors (C9 Chocolate and Gelato, Dolce Dessert Bar, and Wendy's Milk Bar), and what it should do next.</p>
+    <p class="lead">I pulled together SWOT and PEST analysis, sentiment analysis across Instagram, Facebook and Google Reviews, social listening and netnography, and web analytics from Semrush and SimilarWeb — then benchmarked all of it against the competitor set before writing up strategic recommendations.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Gallery</p>
+    <h2>Project visuals</h2>
+
+    <a class="banner-slot has-img" href="cow-and-the-moon-report.pdf#page=1" target="_blank" rel="noopener" aria-label="Open report cover in PDF">
+      <img src="images/cow-report-page-1.jpg" alt="Cover of the Cow and the Moon social media and web analytics report" loading="lazy">
+    </a>
+
+    <div class="img-grid">
+      <a class="img-slot has-img" href="cow-and-the-moon-report.pdf#page=9" target="_blank" rel="noopener" aria-label="Open report page 9">
+        <img src="images/cow-report-page-9.jpg" alt="Report page showing social listening and sentiment analysis charts" loading="lazy">
+      </a>
+      <a class="img-slot has-img" href="cow-and-the-moon-report.pdf#page=16" target="_blank" rel="noopener" aria-label="Open report page 16">
+        <img src="images/cow-report-page-16.jpg" alt="Report page comparing Cow and the Moon with local competitors" loading="lazy">
+      </a>
+      <a class="img-slot has-img" href="cow-and-the-moon-report.pdf#page=17" target="_blank" rel="noopener" aria-label="Open report page 17">
+        <img src="images/cow-report-page-17.jpg" alt="Report page with competitor social media audit charts" loading="lazy">
+      </a>
+    </div>
+    <p class="img-note">Selected pages from the full report. Click an image to open its page in the PDF.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Analysis</p>
+    <h2>SWOT snapshot</h2>
+    <div class="swot-grid">
+      <div class="swot-card s">
+        <h4>Strengths</h4>
+        <ul>
+          <li>High organic web traffic from effective SEO and specific branded keywords</li>
+          <li>Strong positive sentiment and brand loyalty across social platforms</li>
+          <li>High-quality, consistent visual content on Instagram</li>
+        </ul>
+      </div>
+      <div class="swot-card w">
+        <h4>Weaknesses</h4>
+        <ul>
+          <li>Infrequent posting — around 3 posts a month</li>
+          <li>Minimal reply to comments, limiting perceived accessibility</li>
+          <li>High bounce rate (83.78%) and low pages-per-session (1.2)</li>
+        </ul>
+      </div>
+      <div class="swot-card o">
+        <h4>Opportunities</h4>
+        <ul>
+          <li>Untapped potential on TikTok, a fast-growing short-form platform</li>
+          <li>Influencer and local advertiser collaborations</li>
+          <li>More behind-the-scenes and user-generated content</li>
+        </ul>
+      </div>
+      <div class="swot-card t">
+        <h4>Threats</h4>
+        <ul>
+          <li>Crowded competitive landscape in Wollongong</li>
+          <li>Algorithm changes reducing organic reach</li>
+          <li>Low engagement risking visibility loss to more active competitors</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Analysis</p>
+    <h2>PEST factors</h2>
+    <div class="pest-grid">
+      <div class="pest-card"><h4>Political</h4><p>Must comply with the Privacy Act 1988 and Australian advertising laws prohibiting misleading claims.</p></div>
+      <div class="pest-card"><h4>Economic</h4><p>Post-COVID recovery is driving more digital marketing investment, though cost-of-living pressures affect spending patterns.</p></div>
+      <div class="pest-card"><h4>Social</h4><p>Gen Z leans toward TikTok/Instagram; a health-conscious shift is growing demand for lower-sugar, natural options.</p></div>
+      <div class="pest-card"><h4>Technological</h4><p>Mobile payments, AI-driven personalisation, and third-party analytics are reshaping how brands reach customers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Social Intelligence</p>
+    <h2>Customer sentiment</h2>
+    <div class="sentiment-row">
+      <div class="sentiment-card"><div class="pct">95%</div><div class="plat">Positive on Instagram</div></div>
+      <div class="sentiment-card"><div class="pct">98%</div><div class="plat">Positive on Facebook</div></div>
+      <div class="sentiment-card"><div class="pct">85%</div><div class="plat">Positive on Google Reviews</div></div>
+    </div>
+    <p style="margin-top:24px;">Feedback was overwhelmingly positive across all three channels — mostly compliments on the gelato and service. The only recurring criticism, seen on Google Reviews, was about pricing relative to competitors, which customers largely attributed to the brand's quality positioning.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Web &amp; Social Analytics</p>
+    <h2>How Cow and the Moon compares</h2>
+
+    <div class="bar-group">
+      <div class="metric-name">Organic web traffic (visits)</div>
+      <div class="bar-row you"><span class="brand">Cow and the Moon</span><div class="bar-track"><div class="bar-fill" style="width:76.8%"></div></div><span class="val">8.6K</span></div>
+      <div class="bar-row"><span class="brand">C9 Chocolate &amp; Gelato</span><div class="bar-track"><div class="bar-fill" style="width:72.3%"></div></div><span class="val">8.1K</span></div>
+      <div class="bar-row"><span class="brand">Dolce Dessert Bar</span><div class="bar-track"><div class="bar-fill" style="width:11.6%"></div></div><span class="val">1.3K</span></div>
+      <div class="bar-row"><span class="brand">Wendy's Milk Bar</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="val">11.2K</span></div>
+    </div>
+
+    <div class="bar-group">
+      <div class="metric-name">Likes per post</div>
+      <div class="bar-row you"><span class="brand">Cow and the Moon</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="val">135.9</span></div>
+      <div class="bar-row"><span class="brand">C9 Chocolate &amp; Gelato</span><div class="bar-track"><div class="bar-fill" style="width:31.8%"></div></div><span class="val">43.2</span></div>
+      <div class="bar-row"><span class="brand">Dolce Dessert Bar</span><div class="bar-track"><div class="bar-fill" style="width:3.9%"></div></div><span class="val">5.3</span></div>
+      <div class="bar-row"><span class="brand">Wendy's Milk Bar</span><div class="bar-track"><div class="bar-fill" style="width:11.8%"></div></div><span class="val">16.1</span></div>
+    </div>
+
+    <div class="bar-group">
+      <div class="metric-name">Bounce rate</div>
+      <div class="bar-row you"><span class="brand">Cow and the Moon</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="val">83.8%</span></div>
+      <div class="bar-row"><span class="brand">C9 Chocolate &amp; Gelato</span><div class="bar-track"><div class="bar-fill" style="width:70.7%"></div></div><span class="val">59.2%</span></div>
+      <div class="bar-row"><span class="brand">Dolce Dessert Bar</span><div class="bar-track"><div class="bar-fill" style="width:45.8%"></div></div><span class="val">38.3%</span></div>
+      <div class="bar-row"><span class="brand">Wendy's Milk Bar</span><div class="bar-track"><div class="bar-fill" style="width:40.2%"></div></div><span class="val">33.7%</span></div>
+      <p style="font-size:0.8rem; margin-top:8px;">Lower is better here — Cow and the Moon's high bounce rate was a key problem flagged in the report.</p>
+    </div>
+
+    <table class="metrics" style="margin-top:8px;">
+      <tr><th>Metric</th><th>Cow and the Moon</th></tr>
+      <tr><td>Time on page</td><td class="you">7 seconds</td></tr>
+      <tr><td>Pageviews per session</td><td class="you">1.2</td></tr>
+      <tr><td>Backlinks</td><td class="you">388</td></tr>
+      <tr><td>Referring domains</td><td class="you">218</td></tr>
+      <tr><td>Total visits (last month)</td><td class="you">5,765</td></tr>
+      <tr><td>Paid traffic cost</td><td class="you">$0 (fully organic)</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Competitor Analysis</p>
+    <h2>Where the gap is</h2>
+    <p class="lead">C9 Chocolate and Gelato and Dolce Dessert Bar both post far more consistently, which showed up directly as an engagement advantage. Wendy's Milk Bar led on nearly every web metric — traffic, backlinks, time on page — backed by a much larger paid and SEO investment. Despite the smallest online footprint of the three challengers in some areas, Cow and the Moon still earned the highest likes-per-post of any brand studied, suggesting the loyalty is there — it just isn't being converted into consistent reach.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="section-tag">Recommendations</p>
+    <h2>What I recommended</h2>
+    <div class="rec-list">
+      <div class="rec-item"><div class="rec-num">1</div><div><h4>Invest in paid advertising</h4><p>Move beyond full reliance on organic reach to unlock performance tracking and more predictable growth.</p></div></div>
+      <div class="rec-item"><div class="rec-num">2</div><div><h4>Improve website experience</h4><p>Address the high bounce rate and low time-on-page with a more engaging, easier-to-navigate site.</p></div></div>
+      <div class="rec-item"><div class="rec-num">3</div><div><h4>Leverage AI</h4><p>Use AI tools to personalise campaigns and improve marketing productivity and efficiency.</p></div></div>
+      <div class="rec-item"><div class="rec-num">4</div><div><h4>Develop strategic content marketing</h4><p>Build a consistent content calendar, including user-generated content, to lift posting frequency and authenticity.</p></div></div>
+      <div class="rec-item"><div class="rec-num">5</div><div><h4>Expand keywords &amp; SEO</h4><p>Move beyond branded search terms to capture intent-based searches like "best gelato in Wollongong."</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="conclusion-band">
+  <div class="wrap">
+    <p class="section-tag">Takeaway</p>
+    <p>This project sharpened how I read digital performance data and turn it into a prioritised action plan — not just what a brand should do, but why, backed by sentiment, traffic, and competitor evidence.</p>
+  </div>
+</div>
+
+<div class="wrap cta-row">
+  <a class="btn btn-primary" href="../index.html#projects">&#8592; Back to all projects</a>
+</div>
+
+<footer class="foot">Linh Ngo — Marketing Portfolio, 2026.</footer>
+
+
+
+</body>
+</html>
